@@ -9,6 +9,40 @@ app.use(bodyParser.json());
 const HTTP_OK_STATUS = 200;
 const PORT = '3000';
 
+const validatePassword = (req, res, next) => {
+  const { password } = req.body;
+  if (typeof password === 'undefined') {
+    return res.status(400).json({ message: 'O campo "password" é obrigatório' });
+  }
+  if (password === '' || password.length === 0) {
+    return res.status(400).json({
+      message: 'O campo "password" é obrigatório',
+    });
+  }
+  if (password.length < 6) {
+    return res.status(400).json({
+      message: 'O "password" deve ter pelo menos 6 caracteres',
+    });
+  }
+  next();
+};
+const validateEmail = (req, res, next) => {
+  const { email } = req.body;
+  const regex = /^[a-z0-9.]+@[a-z0-9]+(\.[a-z]+)?$/i;
+  const userBoolean = regex.test(email);
+  if (typeof email === 'undefined' || email.length === 0) {
+    return res.status(400).json({
+      message: 'O campo "email" é obrigatório',
+  });
+}
+  if (!userBoolean) {
+    return res.status(400).json({
+      message: 'O "email" deve ter o formato "email@email.com"',
+  });
+}
+next();
+};
+
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
@@ -37,10 +71,11 @@ app.get('/talker', async (req, res) => {
   }
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', validateEmail, validatePassword, (req, res) => {
   try {
-    const newToken = generateToken();
     const { email, password } = req.body;
+    const newToken = generateToken();
+    
     if (!email || !password) {
       return res.status(400).end();
     }
@@ -49,6 +84,10 @@ app.post('/login', (req, res) => {
     res.status(500).end();
   }
 });
+
+/* const regex = /^[a-z0-9.]+@[a-z0-9]+(\.[a-z]+)?$/i; 
+const userBoolean = regex.test(value);
+*/
 
 app.listen(PORT, () => {
   console.log('Online');

@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { getFile } = require('./read.File');
+const { generateToken } = require('./crypto');
 
 const app = express();
 app.use(bodyParser.json());
@@ -33,6 +34,19 @@ app.get('/talker', async (req, res) => {
     return res.status(200).json(people);
   } catch (error) {
     return res.status(200).json([]);
+  }
+});
+
+app.post('/login', (req, res) => {
+  try {
+    const newToken = generateToken();
+    const { email, password } = req.body;
+    if (!email || !password) {
+      return res.status(400).end();
+    }
+    return res.status(200).json({ token: newToken });
+  } catch (error) {
+    res.status(500).end();
   }
 });
 

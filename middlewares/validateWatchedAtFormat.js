@@ -11,7 +11,7 @@ const validateWatchedAtFormat = (req, res, next) => {
     message: 'O campo "watchedAt" deve ter o formato "dd/mm/aaaa"',
   });
 } 
-  return next();
+ next();
 };
 
 module.exports = validateWatchedAtFormat;

@@ -24,4 +24,6 @@ router.post('/talker', validateToken,
 validateName, validateAge, 
 validateTalk, validateWatchedAtFormat, validateRate, registerPeople);
 
+router.put('/talker/:id');
+
 module.exports = router;

@@ -11,6 +11,7 @@ const peopleRegistered = require('./middlewares/peopleResgistered');
 const login = require('./middlewares/login');
 const registerPeople = require('./middlewares/registerPeople');
 const returnsSpeaker = require('./middlewares/returnsSpeaker');
+const editSpeaker = require('./middlewares/editSpeaker');
 
 const router = express.Router();
 
@@ -24,6 +25,8 @@ router.post('/talker', validateToken,
 validateName, validateAge, 
 validateTalk, validateWatchedAtFormat, validateRate, registerPeople);
 
-router.put('/talker/:id');
+router.put('/talker/:id', 
+validateToken, validateName, 
+validateAge, validateTalk, validateWatchedAtFormat, validateRate, editSpeaker);
 
 module.exports = router;

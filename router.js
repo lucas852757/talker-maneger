@@ -13,8 +13,11 @@ const registerPeople = require('./middlewares/registerPeople');
 const returnsSpeaker = require('./middlewares/returnsSpeaker');
 const editSpeaker = require('./middlewares/editSpeaker');
 const removeSpeaker = require('./middlewares/removeSpeaker');
+const searchTerm = require('./middlewares/searchTerm');
 
 const router = express.Router();
+
+router.get('/talker/search', validateToken, searchTerm);
 
 router.get('/talker/:id', returnsSpeaker);
 

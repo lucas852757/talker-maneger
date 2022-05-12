@@ -1,4 +1,7 @@
-//
+/* source:https://www.delftstack.com/pt/howto/javascript/javascript-validate-date/
+source: https://bobbyhadz.com/blog/javascript-date-validation-dd-mm-yyyy 
+Este código valida uma data no formato dd/mm/mm utilizando um regex e o Date.parse(), que calcula o número de anos entre 1 de janeiro de 1970 até a data atual.
+*/ 
 const validateWatchedAtFormat = (req, res, next) => {
   const { talk } = req.body;
   const regex = /^\d{4}\/\d{2}\/\d{2}$/;

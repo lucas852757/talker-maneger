@@ -12,6 +12,7 @@ const login = require('./middlewares/login');
 const registerPeople = require('./middlewares/registerPeople');
 const returnsSpeaker = require('./middlewares/returnsSpeaker');
 const editSpeaker = require('./middlewares/editSpeaker');
+const removeSpeaker = require('./middlewares/removeSpeaker');
 
 const router = express.Router();
 
@@ -28,5 +29,7 @@ validateTalk, validateWatchedAtFormat, validateRate, registerPeople);
 router.put('/talker/:id', 
 validateToken, validateName, 
 validateAge, validateTalk, validateWatchedAtFormat, validateRate, editSpeaker);
+
+router.delete('/talker/:id', validateToken, removeSpeaker);
 
 module.exports = router;

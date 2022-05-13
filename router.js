@@ -1,4 +1,5 @@
 const express = require('express');
+const rescue = require('express-rescue');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
 const validateToken = require('./middlewares/validateToken');
@@ -17,22 +18,36 @@ const searchTerm = require('./middlewares/searchTerm');
 
 const router = express.Router();
 
-router.get('/talker/search', validateToken, searchTerm);
+router.get('/talker/search', validateToken, rescue(searchTerm));
 
-router.get('/talker/:id', returnsSpeaker);
+router.get('/talker/:id', rescue(returnsSpeaker));
 
-router.get('/talker', peopleRegistered);
+router.get('/talker', rescue(peopleRegistered));
 
 router.post('/login', validateEmail, validatePassword, login);
 
-router.post('/talker', validateToken,
-validateName, validateAge, 
-validateTalk, validateWatchedAtFormat, validateRate, registerPeople);
+router.post(
+  '/talker',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAtFormat,
+  validateRate,
+  rescue(registerPeople),
+);
 
-router.put('/talker/:id', 
-validateToken, validateName, 
-validateAge, validateTalk, validateWatchedAtFormat, validateRate, editSpeaker);
+router.put(
+  '/talker/:id',
+  validateToken,
+  validateName,
+  validateAge,
+  validateTalk,
+  validateWatchedAtFormat,
+  validateRate,
+  rescue(editSpeaker),
+);
 
-router.delete('/talker/:id', validateToken, removeSpeaker);
+router.delete('/talker/:id', validateToken, rescue(removeSpeaker));
 
 module.exports = router;
